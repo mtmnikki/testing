@@ -7,6 +7,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import AppShell from '../components/layout/AppShell';
 import { useAuth } from '../components/auth/AuthContext';
+import { useProfilesStore } from '../stores/profilesStore';
 import { Api } from '../services/dashboardApi';
 import {
   Announcement,
@@ -119,7 +120,11 @@ const QuickCard: React.FC<{ item: QuickAccessItem }> = ({ item }) => {
  */
 export default function Dashboard() {
   const { member } = useAuth();
+  const { profiles, currentProfileId } = useProfilesStore();
   const [programs, setPrograms] = useState<ClinicalProgram[]>([]);
+
+  // Get the current active profile
+  const currentProfile = profiles.find(p => p.id === currentProfileId);
   const [quick, setQuick] = useState<QuickAccessItem[]>([]);
   const [bookmarks, setBookmarks] = useState<ResourceItem[]>([]);
   const [activity, setActivity] = useState<RecentActivity[]>([]);
@@ -175,7 +180,7 @@ export default function Dashboard() {
       header={
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-3 py-3 text-[13px]">
           <div>
-            <div className="text-lg font-semibold">Welcome back, {member?.pharmacyName ?? 'Member'}</div>
+            <div className="text-lg font-semibold">Welcome back, {currentProfile?.firstName ?? member?.pharmacyName ?? 'Member'}</div>
             {/* Meta row: keep useful context chips */}
             <div className="mt-1 flex flex-wrap items-center gap-2 text-[12px] text-slate-600">
               <span className={`rounded-full px-2 py-0.5 text-[11px] ${subColor}`}>

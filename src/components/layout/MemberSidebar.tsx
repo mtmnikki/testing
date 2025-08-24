@@ -28,6 +28,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useAuthStore } from '../../stores/authStore';
+import { useProfilesStore } from '../../stores/profilesStore';
+import LogoImage from '../../assets/images/logoimage.svg';
 
 /**
  * Sidebar item descriptor
@@ -58,6 +60,10 @@ export default function MemberSidebar() {
   const location = useLocation();
   const { member } = useAuth();
   const { logout } = useAuthStore();
+  const { profiles, currentProfileId } = useProfilesStore();
+
+  // Get the current active profile
+  const currentProfile = profiles.find(p => p.id === currentProfileId);
 
   // Collapsible groups default to collapsed
   const [openPrograms, setOpenPrograms] = useState(false);
@@ -111,15 +117,19 @@ export default function MemberSidebar() {
       aria-label="Member navigation"
       className="flex h-full flex-col p-2 text-slate-100 text-[13px]"
     >
-      {/* Brand header — rounded chip "CR" */}
+      {/* Brand header — logo image */}
       <div className="mb-2 flex items-center gap-2 px-1.5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-[10px] font-bold text-white shadow-inner">
-          CR
+        <div className="flex h-7 w-7 items-center justify-center">
+          <img
+            src={LogoImage}
+            alt="ClinicalRxQ Logo"
+            className="h-7 w-7 object-contain"
+          />
         </div>
         <div className="min-w-0">
           <div className="text-[13px] font-semibold leading-5">ClinicalRxQ</div>
           <div className="truncate text-[11px] text-slate-400">
-            {member?.pharmacyName ?? 'Member'}
+            {currentProfile?.firstName ?? member?.pharmacyName ?? 'Member'}
           </div>
         </div>
       </div>
