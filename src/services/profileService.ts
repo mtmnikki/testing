@@ -5,6 +5,7 @@
  */
 
 import { getSupabaseUrl, getSupabaseAnonKey } from '../config/supabaseConfig';
+import { authService } from './supabase';
 import type { PharmacyProfile, CreateProfileData, ProfileRole } from '../types';
 
 interface DatabaseProfile {
@@ -31,7 +32,7 @@ interface ApiResponse<T> {
 }
 
 /**
- * Internal: PostgREST API wrapper
+ * Internal: PostgREST API wrapper with proper JWT authentication
  */
 async function apiCall<T>(
   endpoint: string,
@@ -47,6 +48,17 @@ async function apiCall<T>(
     };
   }
 
+  // Get the current user's JWT token for RLS authentication
+  const session = await authService.getSession();
+  const accessToken = session?.access_token;
+
+  if (!accessToken) {
+    return {
+      data: null,
+      error: 'User not authenticated. Please log in again.'
+    };
+  }
+
   const url = `${base}/rest/v1${endpoint}`;
   
   try {
@@ -54,7 +66,7 @@ async function apiCall<T>(
       ...options,
       headers: {
         'apikey': anon,
-        'Authorization': `Bearer ${anon}`,
+        'Authorization': `Bearer ${accessToken}`, // Use JWT token instead of anon key
         'Content-Type': 'application/json',
         'Prefer': 'return=representation',
         ...options.headers,
