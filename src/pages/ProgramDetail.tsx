@@ -621,7 +621,7 @@ export default function ProgramDetail() {
     <AppShell sidebar={<MemberSidebar />}>
       {/* Gradient hero with glass container */}
       <section className="relative -mx-3 bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-300 px-3 py-10 text-white">
-        <div className="mx-auto w-full max-w-[1440px]">
+        <div className="mx-auto w-full">
           <div className="w-full max-w-none">
             <Breadcrumbs
               variant="light"
@@ -634,19 +634,15 @@ export default function ProgramDetail() {
             />
 
             {/* Glassmorphism container */}
-            <div className="w-full rounded-xl border border-white/25 bg-white/10 p-6 shadow-lg backdrop-blur-md">
+            <div className="w-full max-w-60 rounded-xl border border-white/25 bg-white/10 p-6 shadow-lg backdrop-blur-md">
               <h1 className="text-3xl font-bold leading-tight">
                 <SafeText value={name} />
               </h1>
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30">
-                  Supabase Storage • storage_files_catalog
-                </Badge>
                 {!loading ? (
-                  <span className="text-xs text-white/80">
-                    {counts.training} training • {counts.protocols} protocols • {counts.forms} forms • {counts.resources}{' '}
-                    resources
-                  </span>
+                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30">
+                    {counts.training} training • {counts.protocols} protocols • {counts.forms} forms • {counts.resources} resources
+                </Badge>
                 ) : null}
               </div>
               {description ? (

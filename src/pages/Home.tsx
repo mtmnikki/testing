@@ -177,7 +177,6 @@ const HomePage: React.FC = () => {
       {/* Hero Section (REPLACED - exact as provided) */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-300 via-cyan-200 to-teal-200 opacity-10"></div>
-        <div className="absolute inset-0 bg-[url('https://pub-cdn.sider.ai/u/U03VH4NVNOE/web-coder/687655a5b1dac45b18db4f5c/resource/cd53336d-d6e2-4c6b-bf62-bba9d1f359ba.png')] bg-center bg-cover opacity-20"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -373,15 +372,6 @@ const HomePage: React.FC = () => {
             {programs.slice(3).map((program, index) => (
               <ProgramCard key={index + 3} item={program} />
             ))}
-          </div>
-
-          <div className="text-center">
-            <Link to="/join">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-3">
-                View All Programs
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
