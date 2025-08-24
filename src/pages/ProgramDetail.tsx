@@ -634,7 +634,7 @@ export default function ProgramDetail() {
             />
 
             {/* Glassmorphism container */}
-            <div className="w-full max-w-1000 mx-auto rounded-xl border border-white/25 bg-white/10 p-6 shadow-lg backdrop-blur-md">
+            <div className="w-full max-w-5xl mx-auto rounded-xl border border-white/25 bg-white/10 p-6 shadow-lg backdrop-blur-md">
               <h1 className="text-3xl font-bold leading-tight">
                 <SafeText value={name} />
               </h1>
