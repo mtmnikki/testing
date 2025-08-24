@@ -620,7 +620,7 @@ export default function ProgramDetail() {
   return (
     <AppShell sidebar={<MemberSidebar />}>
       {/* Gradient hero with glass container */}
-      <section className="relative -mx-3 bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-300 px-3 py-10 text-white">
+      <section className="relative -mx-3 bg-gradient-to-br from-blue-700 via-cyan-500 to-teal-400 px-4 py-10 text-white">
         <div className="mx-auto w-full">
           <div className="w-full max-w-none">
             <Breadcrumbs
@@ -634,7 +634,7 @@ export default function ProgramDetail() {
             />
 
             {/* Glassmorphism container */}
-            <div className="w-full max-w-5xl mx-auto rounded-xl border border-white/25 bg-white/10 p-6 shadow-lg backdrop-blur-md">
+            <div className="w-full max-w-5xl mx-auto rounded-xl border border-white/35 bg-white/20 p-6 shadow-lg backdrop-blur-md">
               <h1 className="text-3xl font-bold leading-tight">
                 <SafeText value={name} />
               </h1>
@@ -646,7 +646,7 @@ export default function ProgramDetail() {
                 ) : null}
               </div>
               {description ? (
-                <p className="mt-3 max-w-3xl text-sm text-white/90">
+                <p className="mt-3 max-w-3xl text-sm text-white">
                   <SafeText value={description} />
                 </p>
               ) : null}
