@@ -3,6 +3,9 @@ import { rimraf } from 'rimraf'
 import stylePlugin from 'esbuild-style-plugin'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
+import { createServer } from 'http'
+import { readFileSync, existsSync } from 'fs'
+import { extname, join } from 'path'
 
 const args = process.argv.slice(2)
 const isProd = args[0] === '--production'
@@ -45,7 +48,37 @@ if (isProd) {
 } else {
   const ctx = await esbuild.context(esbuildOpts)
   await ctx.watch()
-  const { hosts, port } = await ctx.serve()
+  
+  // Create a simple HTTP server to serve the built files
+  const server = createServer((req, res) => {
+    const url = req.url === '/' ? '/index.html' : req.url
+    const filePath = join('dist', url)
+    
+    if (existsSync(filePath)) {
+      const ext = extname(filePath)
+      const contentTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.svg': 'image/svg+xml'
+      }
+      
+      res.writeHead(200, { 'Content-Type': contentTypes[ext] || 'text/plain' })
+      res.end(readFileSync(filePath))
+    } else {
+      res.writeHead(404)
+      res.end('Not Found')
+    }
+  })
+  
+  const port = 8000
+  server.listen(port, () => {
+    console.log(`Running on:`)
+    console.log(`http://localhost:${port}`)
+  })
   console.log(`Running on:`)
   hosts.forEach((host) => {
     console.log(`http://${host}:${port}`)
