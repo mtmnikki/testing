@@ -33,24 +33,12 @@ function readLocalStorage(key: string): string | '' {
 }
 
 /**
- * Vite environment variable types for Supabase config.
- */
-interface ImportMetaEnv {
-  readonly VITE_SUPABASE_URL?: string;
-  readonly VITE_SUPABASE_ANON_KEY?: string;
-}
-
-interface MyImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
-/**
  * Get Supabase URL
  * - Order: VITE_SUPABASE_URL env -> localStorage SUPABASE_URL -> DEFAULT_SUPABASE_URL
  * @returns normalized base URL without trailing slash
  */
 export function getSupabaseUrl(): string {
-  const envUrl = (import.meta as any).env.VITE_SUPABASE_URL;
+  const envUrl = (import.meta as any)?.env?.VITE_SUPABASE_URL as string | undefined;
   const lsUrl = readLocalStorage('SUPABASE_URL');
   const url = (envUrl && envUrl.trim()) || (lsUrl && lsUrl.trim()) || DEFAULT_SUPABASE_URL;
   return url.replace(/\/*$/, ''); // strip trailing slashes
@@ -61,7 +49,7 @@ export function getSupabaseUrl(): string {
  * - Order: VITE_SUPABASE_ANON_KEY env -> localStorage SUPABASE_ANON_KEY -> DEFAULT_SUPABASE_ANON_KEY
  */
 export function getSupabaseAnonKey(): string {
-  const envKey = (import.meta as any as MyImportMeta).env.VITE_SUPABASE_ANON_KEY;
+  const envKey = (import.meta as any)?.env?.VITE_SUPABASE_ANON_KEY as string | undefined;
   const lsKey = readLocalStorage('SUPABASE_ANON_KEY');
   return (envKey && envKey.trim()) || (lsKey && lsKey.trim()) || DEFAULT_SUPABASE_ANON_KEY;
 }

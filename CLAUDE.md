@@ -19,23 +19,26 @@ node scripts/lint.mjs --fix  # Auto-fix linting issues
 - **Build Tool**: esbuild with custom scripts/build.mjs
 - **Styling**: Tailwind CSS with shadcn/ui components
 - **Routing**: React Router v7 (HashRouter)
-- **State Management**: Zustand stores
+- **State Management**: Zustand stores (authStore, profilesStore, bookmarkStore)
 - **Form Handling**: React Hook Form with Zod validation
-- **Backend Integration**: Supabase (REST API) and Airtable
+- **Backend Integration**: Supabase (REST API + GoTrue auth)
 
 ### Project Structure
 ```
 src/
 ├── components/
-│   ├── ui/          # shadcn/ui component library (26 components)
-│   ├── layout/      # AppShell, Header, Footer, Sidebars
-│   ├── auth/        # Authentication components and context
-│   └── common/      # Shared utility components
+│   ├── ui/          # shadcn/ui component library (50+ components)
+│   ├── layout/      # AppShell, Header, Footer, DashboardSidebarNav
+│   ├── auth/        # AuthContext provider
+│   ├── profiles/    # ProfileGate, AddProfileModal, ProfilesTable
+│   ├── home/        # Homepage components (ThreePillars)
+│   ├── resources/   # ResourceCard, ProgramResourceRow
+│   └── common/      # SafeText, ErrorBoundary, ScrollToTop, BackToTop, Breadcrumbs
 ├── pages/           # Route-based page components
-├── services/        # API integrations (Supabase, Airtable)
+├── services/        # API integrations (supabase.ts, supabaseStorage.ts, storageCatalog.ts)
 ├── stores/          # Zustand state management
-├── lib/             # Utility functions
-├── hooks/           # Custom React hooks
+├── lib/             # Utility functions (utils.ts, slug.ts, cellValue.ts)
+├── hooks/           # Custom React hooks (use-toast, use-mobile)
 └── types/           # TypeScript definitions
 ```
 
@@ -44,22 +47,30 @@ src/
 
 ## Key Implementation Patterns
 
-### Authentication
-- Mock authentication system ready for Supabase GoTrue integration
-- AuthContext + Zustand store pattern
-- Protected routes using higher-order components
+### Authentication & Profiles
+- **Multi-profile System**: Users can have multiple profiles via ProfileGate component
+- **Profile-based Access**: Protected routes require both authentication and profile selection
+- **Auth Flow**: AuthContext → authStore → ProfileGate → Content
+- **Supabase GoTrue**: Real authentication integrated with profiles table
 
 ### Data Layer
 - **Supabase Service**: REST-based with typed interfaces (src/services/supabase.ts)
-- **Airtable Service**: Rate-limited client with retry logic (src/services/airtable.ts)
-- Services use fetch API, not SDK-based implementations
+  - Programs, Training Modules, Protocol Manuals, Documentation Forms, Additional Resources
+  - Patient Handouts, Clinical Guidelines, Medical Billing Resources
+- **Storage Service**: Supabase storage integration (src/services/supabaseStorage.ts)
+- **No Airtable**: Previously removed - all data operations go through Supabase
+
+### Routing Structure
+All routes use HashRouter (#/):
+- Public: `/`, `/contact`, `/login`, `/enroll`
+- Protected: `/dashboard`, `/member-content`, `/resources`, `/program/:programSlug`, `/account`, `/bookmarks`
 
 ### UI Components
 - Base: shadcn/ui components (Radix UI + Tailwind)
 - **Important**: For Button with `variant="outline"`, always include `className="bg-transparent"`
 - Theme support via CSS variables
 - Icons: Lucide React
-- Notifications: Sonner toast system
+- Notifications: Sonner toast system (top-center, 1.8s duration)
 
 ## Development Guidelines
 
@@ -68,7 +79,7 @@ src/
 2. **Fix linting issues**: `node scripts/lint.mjs --fix`
 3. **Never declare functions inside JSX blocks**
 4. **Follow React hooks rules** (no conditional hooks)
-5. **Check visual rendering** on key pages: Home, Programs, ProgramDetail, Dashboard
+5. **Check visual rendering** on key pages: Home, Dashboard, ProgramDetail, Resources
 
 ### Testing
 Currently no test framework is configured. When implementing tests:
@@ -79,8 +90,10 @@ Currently no test framework is configured. When implementing tests:
 Required for production:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
-- `VITE_AIRTABLE_BASE_ID`
-- `VITE_AIRTABLE_API_KEY`
+
+Environment variables can also be overridden via localStorage for development:
+- `localStorage.setItem('SUPABASE_URL', 'your-url')`
+- `localStorage.setItem('SUPABASE_ANON_KEY', 'your-key')`
 
 ## Build System
 
@@ -88,12 +101,13 @@ Required for production:
 - esbuild with file watching and hot reload
 - Serves on localhost with automatic port assignment
 - Source maps enabled for debugging
+- Automatic browser refresh on file changes
 
 ### Production Build
 - Minification and tree-shaking enabled
 - Output to `dist/` directory
 - No source maps in production
-- Static files ready for deployment
+- Static files (images) handled via file loader
 
 ### Deployment
 - Vercel configuration present (vercel.json)
@@ -106,4 +120,6 @@ Required for production:
 2. **Build Scripts**: Custom esbuild setup in scripts/build.mjs
 3. **No TypeScript checking in build**: Use ESLint for type checking
 4. **Route Structure**: Uses HashRouter - all routes must be hash-based (#/)
-5. **Mock Data**: Currently using mock authentication - ready for real backend integration
+5. **Authentication State**: Real Supabase GoTrue integration, not mock data
+6. **Profile Selection**: Users must select a profile after login via ProfileGate
+7. **Storage URLs**: Use `getStorageUrl()` helper for Supabase public bucket files
