@@ -15,6 +15,7 @@ interface AuthState {
   register: (userData: { email: string; password: string; firstName?: string; lastName?: string; pharmacyName?: string }) => Promise<boolean>;
   checkAuth: () => Promise<void>;
   updateProfile: (updates: { firstName?: string; lastName?: string; pharmacyName?: string }) => Promise<boolean>;
+  clearUserContext: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -88,7 +89,11 @@ export const useAuthStore = create<AuthState>()(
           console.error('Logout error:', error);
         }
         
+        // Clear auth state
         set({ user: null, isAuthenticated: false, isLoading: false });
+        
+        // Clear profiles context (will be imported lazily to avoid circular deps)
+        get().clearUserContext();
       },
 
       /**
@@ -198,6 +203,21 @@ export const useAuthStore = create<AuthState>()(
           console.error('Profile update error:', error);
           set({ isLoading: false });
           return false;
+        }
+      },
+
+      /**
+       * Clear all user-related context (profiles, bookmarks, etc.)
+       * This is called on logout to ensure clean state
+       */
+      clearUserContext: () => {
+        try {
+          // Dynamic import to avoid circular dependency
+          import('./profilesStore').then(({ useProfilesStore }) => {
+            useProfilesStore.getState().reset();
+          });
+        } catch (error) {
+          console.warn('Failed to clear profiles context:', error);
         }
       },
     }),

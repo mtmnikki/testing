@@ -69,3 +69,47 @@ export interface TeamMember {
   image: string;
   linkedin?: string;
 }
+
+// Profile system types
+export type ProfileRole = 'Pharmacist-PIC' | 'Pharmacist-Staff' | 'Pharmacy Technician';
+
+export interface PharmacyProfile {
+  id: string;
+  member_account_id: string;
+  
+  // Required fields
+  role: ProfileRole;
+  firstName: string;
+  lastName: string;
+  
+  // Optional fields
+  phone?: string;
+  email?: string;
+  dobMonth?: string; // "01"-"12"
+  dobDay?: string;   // "01"-"31" 
+  dobYear?: string;  // "1950"-"2010"
+  licenseNumber?: string;
+  nabpEProfileId?: string;
+  
+  // System fields
+  is_active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateProfileData {
+  role: ProfileRole;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  email?: string;
+  dobMonth?: string;
+  dobDay?: string;
+  dobYear?: string;
+  licenseNumber?: string;
+  nabpEProfileId?: string;
+}
+
+export interface ProfileFormData extends CreateProfileData {
+  // Same as CreateProfileData for forms
+}

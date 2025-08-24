@@ -22,9 +22,11 @@ import { Toaster } from 'sonner';
 import ScrollToTop from './components/common/ScrollToTop';
 import BackToTop from './components/common/BackToTop';
 import { AuthProvider } from './components/auth/AuthContext';
+import ProfileGate from './components/profiles/ProfileGate';
 
 /**
  * Protected route component for member-only pages
+ * Ensures user is authenticated and has selected a profile
  */
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
@@ -33,7 +35,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Login />;
   }
 
-  return <>{children}</>;
+  return (
+    <ProfileGate>
+      {children}
+    </ProfileGate>
+  );
 }
 
 /**
