@@ -200,18 +200,19 @@ const HomePage: React.FC = () => {
                 clinical services with proven protocols and turnkey infrastructure.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/join">
-                  <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-3">
-                    <Play className="mr-2 h-5 w-5" />
-                    Explore Programs
-                  </Button>
-                </Link>
-                <Link to="/join">
-                  <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3">
-                    Sign-Up Today
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-3"
+                  onClick={() => {
+                    const programsSection = document.getElementById('our-programs');
+                    if (programsSection) {
+                      programsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  <Play className="mr-2 h-5 w-5" />
+                  Explore Programs
+                </Button>
               </div>
             </div>
 
@@ -339,7 +340,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Programs Section (REPLACED - exact as provided) */}
-      <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+      <section id="our-programs" className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-blue-400 blur-3xl" />
           <div className="absolute bottom-20 right-20 h-96 w-96 rounded-full bg-cyan-400 blur-3xl" />
@@ -680,11 +681,6 @@ const HomePage: React.FC = () => {
             through ClinicalRxQ's comprehensive programs.
           </p>
           <div className="flex gap-4 justify-center">
-            <Link to="/join">
-              <Button size="lg" className="bg-amber-500 hover:bg-amber-600">
-                Start Free Trial
-              </Button>
-            </Link>
             <Link to="/contact">
               <Button size="lg" variant="outline" className="bg-transparent">
                 Contact Us

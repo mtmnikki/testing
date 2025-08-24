@@ -11,6 +11,7 @@ import { Button } from '../ui/button';
 import { Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import SafeText from '../common/SafeText';
+import WordLogoBlack from '../../assets/images/wordlogoblack.svg';
 
 /**
  * Header component
@@ -24,7 +25,6 @@ export default function Header() {
   const publicNavItems = useMemo(
     () => [
       { href: '/', label: 'Home' },
-      { href: '/programs', label: 'Programs' },
       { href: '/contact', label: 'Contact' },
     ],
     []
@@ -42,20 +42,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-700 via-cyan-400 to-teal-300 rounded-full flex items-center justify-center">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <img
-                  src="https://pub-cdn.sider.ai/u/U03VH4NVNOE/web-coder/687655a5b1dac45b18db4f5c/resource/0fb3f1b8-e6cd-4575-806d-018bad3c9e1a.png"
-                  alt="ClinicalRxQ Logo"
-                  className="w-6 h-6"
-                />
-              </div>
-            </div>
-            <div className="text-2xl font-bold">
-              <span className="text-gray-800">Clinical</span>
-              <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-300 bg-clip-text text-transparent">RxQ</span>
-            </div>
+          <Link to="/" className="flex items-center">
+            <img
+              src={WordLogoBlack}
+              alt="ClinicalRxQ"
+              className="h-8"
+            />
           </Link>
 
           {/* Desktop Navigation */}

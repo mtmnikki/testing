@@ -6,7 +6,6 @@
 
 import { HashRouter, Route, Routes } from 'react-router';
 import Home from './pages/Home';
-import Programs from './pages/Programs';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Enroll from './pages/Enroll';
@@ -54,7 +53,6 @@ export default function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/programs" element={<Programs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/enroll" element={<Enroll />} />
