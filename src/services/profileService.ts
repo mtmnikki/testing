@@ -128,13 +128,13 @@ function mapToDatabase(
     role_type: data.role,
     first_name: data.firstName,
     last_name: data.lastName,
-    phone_number: data.phone || null,
-    user_email: data.email || null,
-    dob_month: data.dobMonth || null,
-    dob_day: data.dobDay || null,
-    dob_year: data.dobYear || null,
-    license_number: data.licenseNumber || null,
-    nabp_eprofile_id: data.nabpEProfileId || null,
+    phone_number: data.phone || undefined,
+    user_email: data.email || undefined,
+    dob_month: data.dobMonth || undefined,
+    dob_day: data.dobDay || undefined,
+    dob_year: data.dobYear || undefined,
+    license_number: data.licenseNumber || undefined,
+    nabp_eprofile_id: data.nabpEProfileId || undefined,
   };
 }
 

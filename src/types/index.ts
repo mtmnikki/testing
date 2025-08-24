@@ -2,22 +2,19 @@
  * Type definitions for ClinicalRxQ application
  */
 
-export interface User {
+// Account type matches public.accounts table in Supabase
+export interface Account {
   id: string;
   email: string;
-  name: string;
-  role: 'member' | 'admin';
-  subscription?: Subscription;
-  createdAt: Date;
-}
-
-export interface Subscription {
-  id: string;
-  planName: string;
-  status: 'active' | 'inactive' | 'cancelled';
-  startDate: Date;
-  endDate: Date;
-  programs: string[];
+  pharmacy_name: string;
+  subscription_status: 'active' | 'inactive' | 'cancelled';
+  created_at: string;
+  updated_at: string;
+  pharmacy_phone?: string;
+  address1?: string;
+  city?: string;
+  state?: string;
+  zipcode?: string;
 }
 
 export interface Program {
@@ -50,24 +47,6 @@ export interface Resource {
   url: string;
   description: string;
   category: string;
-}
-
-export interface SuccessStory {
-  id: string;
-  name: string;
-  title: string;
-  content: string;
-  image: string;
-  program: string;
-}
-
-export interface TeamMember {
-  id: string;
-  name: string;
-  title: string;
-  bio: string;
-  image: string;
-  linkedin?: string;
 }
 
 // Profile system types

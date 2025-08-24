@@ -183,9 +183,6 @@ export default function Dashboard() {
             <div className="text-lg font-semibold">Welcome back, {currentProfile?.firstName ?? member?.pharmacyName ?? 'Member'}</div>
             {/* Meta row: keep useful context chips */}
             <div className="mt-1 flex flex-wrap items-center gap-2 text-[12px] text-slate-600">
-              <span className={`rounded-full px-2 py-0.5 text-[11px] ${subColor}`}>
-                {member?.subscriptionStatus ?? 'Active'}
-              </span>
             </div>
           </div>
           <Link to="/resources">
@@ -201,11 +198,6 @@ export default function Dashboard() {
       <section className="mb-6">
         <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-base font-semibold">Clinical Programs</h2>
-          <div className="flex items-center gap-1.5">
-            <StatChip label="49+ Active Pharmacies" />
-            <StatChip label="HIPAA Compliant" />
-            <StatChip label="Updated Monthly" />
-          </div>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {programs.map((p) => {
@@ -219,12 +211,6 @@ export default function Dashboard() {
                         <Icon className="h-4 w-4 text-blue-600" />
                         <CardTitle className="text-sm">{p.name}</CardTitle>
                       </div>
-                      <Badge variant="secondary" className="text-[11px]">
-                        {p.resourceCount} resources
-                      </Badge>
-                    </div>
-                    <div className="text-[12px] text-slate-500">
-                      Updated {p.lastUpdatedISO ? new Date(p.lastUpdatedISO).toLocaleDateString() : '—'}
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -236,7 +222,67 @@ export default function Dashboard() {
           })}
         </div>
       </section>
+      
+      {/* Recent activity and announcements */}
+      <section className="grid grid-cols-1 gap-3 xl:grid-cols-3">
+        <div className="xl:col-span-2">
+          <Card>
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm">Recently Accessed</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="divide-y">
+                {activity.map((a) => (
+                  <div key={a.id} className="flex items-center justify-between py-2">
+                    <div>
+                      <div className="text-[13px] font-medium">{a.name}</div>
+                      <div className="text-[12px] text-slate-500">
+                        {a.program?.toUpperCase()} • {new Date(a.accessedAtISO).toLocaleString()}
+                      </div>
+                    </div>
+                    {a.url ? (
+                      <a href={a.url} target="_blank" rel="noreferrer">
+                        <Button size="sm" variant="outline" className="bg-transparent h-8 px-3">
+                          <Download className="mr-2 h-3.5 w-3.5" />
+                          Re-download
+                        </Button>
+                      </a>
+                    ) : (
+                      <Link to="/resources">
+                        <Button size="sm" variant="outline" className="bg-transparent h-8 px-3">
+                          <Download className="mr-2 h-3.5 w-3.5" />
+                          View in Library
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
+        <div>
+          <Card>
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm">Announcements</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {ann.map((an) => (
+                  <div key={an.id} className="rounded-md border p-2.5">
+                    <div className="text-[13px] font-semibold">{an.title}</div>
+                    <div className="text-[12px] text-slate-500">
+                      {new Date(an.dateISO).toLocaleDateString()}
+                    </div>
+                    <div className="mt-0.5 text-[13px] text-slate-700">{an.body}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
       {/* Quick access */}
       <section className="mb-6">
         <h2 className="mb-2.5 text-base font-semibold">Quick Access</h2>
@@ -246,7 +292,6 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
-
       {/* Bookmarked resources */}
       <section className="mb-6">
         <div className="mb-2.5 flex items-center justify-between">
@@ -307,67 +352,6 @@ export default function Dashboard() {
             })}
           </div>
         )}
-      </section>
-
-      {/* Recent activity and announcements */}
-      <section className="grid grid-cols-1 gap-3 xl:grid-cols-3">
-        <div className="xl:col-span-2">
-          <Card>
-            <CardHeader className="pb-1.5">
-              <CardTitle className="text-sm">Recently Accessed</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="divide-y">
-                {activity.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between py-2">
-                    <div>
-                      <div className="text-[13px] font-medium">{a.name}</div>
-                      <div className="text-[12px] text-slate-500">
-                        {a.program?.toUpperCase()} • {new Date(a.accessedAtISO).toLocaleString()}
-                      </div>
-                    </div>
-                    {a.url ? (
-                      <a href={a.url} target="_blank" rel="noreferrer">
-                        <Button size="sm" variant="outline" className="bg-transparent h-8 px-3">
-                          <Download className="mr-2 h-3.5 w-3.5" />
-                          Re-download
-                        </Button>
-                      </a>
-                    ) : (
-                      <Link to="/resources">
-                        <Button size="sm" variant="outline" className="bg-transparent h-8 px-3">
-                          <Download className="mr-2 h-3.5 w-3.5" />
-                          View in Library
-                        </Button>
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card>
-            <CardHeader className="pb-1.5">
-              <CardTitle className="text-sm">Announcements</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {ann.map((an) => (
-                  <div key={an.id} className="rounded-md border p-2.5">
-                    <div className="text-[13px] font-semibold">{an.title}</div>
-                    <div className="text-[12px] text-slate-500">
-                      {new Date(an.dateISO).toLocaleDateString()}
-                    </div>
-                    <div className="mt-0.5 text-[13px] text-slate-700">{an.body}</div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </section>
     </AppShell>
   );

@@ -139,7 +139,7 @@ export default function ProfileGate() {
     <>
       {/* Selection dialog (blocking) */}
       <Dialog open={selectOpen} onOpenChange={(open) => setSelectOpen(open)}>
-        <DialogContent className="sm:max-w-md" hideClose>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Select a profile</DialogTitle>
             <DialogDescription>

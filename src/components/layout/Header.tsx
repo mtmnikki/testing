@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import SafeText from '../common/SafeText';
-import WordLogoBlack from '../../assets/images/wordlogoblack.svg';
+import BlackWordLogo from '../../assets/images/blackwordlogo.svg';
 
 /**
  * Header component
@@ -44,7 +44,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
-              src={WordLogoBlack}
+              src={BlackWordLogo}
               alt="ClinicalRxQ"
               className="h-8"
             />
@@ -72,8 +72,8 @@ export default function Header() {
                 {/* User summary */}
                 <div className="flex items-center space-x-2">
                   <UserIcon className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">
-                    <SafeText value={user?.['firstName']} /> <SafeText value={user?.['lastName']} />
+                  <span className="text-sm text-gray-700 capitalize">
+                    <SafeText value={user?.firstName || user?.name || ''} /> <SafeText value={user?.lastName ?? ''} />
                   </span>
                 </div>
 

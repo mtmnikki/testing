@@ -16,7 +16,6 @@ export interface ClinicalProgram {
   name: string;
   description: string;
   icon: string; // lucide icon name
-  resourceCount: number;
   lastUpdatedISO?: string;
 }
 

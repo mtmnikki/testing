@@ -67,7 +67,6 @@ export const Api = {
           name: metadata.name,
           description: metadata.description,
           icon: metadata.icon,
-          resourceCount: 0, // Will be calculated from program details
           lastUpdatedISO: program.updated_at || program.created_at
         };
       });
