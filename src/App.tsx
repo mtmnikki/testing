@@ -8,7 +8,6 @@ import { HashRouter, Route, Routes } from 'react-router';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
-import Enroll from './pages/Enroll';
 import Dashboard from './pages/Dashboard';
 import Resources from './pages/Resources';
 import ProgramDetail from './pages/ProgramDetail';
@@ -55,7 +54,6 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/enroll" element={<Enroll />} />
 
             {/* Protected Routes */}
             <Route
